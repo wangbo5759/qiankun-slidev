@@ -3,7 +3,7 @@
 theme: seriph
 # random image from a curated Unsplash collection by Anthony
 # like them? see https://unsplash.com/collections/94734566/slidev
-background: https://source.unsplash.com/collection/94734566/1920x1080
+background: https://images.unsplash.com/photo-1620837953336-8274c0623a3c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80
 # apply any windi css classes to the current slide
 class: 'text-center'
 # https://sli.dev/custom/highlighters.html
@@ -23,9 +23,9 @@ drawings:
 css: unocss
 ---
 
-# 微前端 —— 拆解巨石应用
+# Welcome to Micro-Frontend
 
-micro front-end for monolith application
+Micro Front-end For Monolith Application
 
 <div class="pt-12">
   <span @click="$slidev.nav.next" class="px-2 py-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
@@ -155,7 +155,7 @@ class: my-cool-content-on-the-left
 ---
 
 # 举个🌰:
-# 究竟“微前端”是什么样
+# 直观感受“微前端”是什么样
 
 <br>
 <br>
@@ -327,7 +327,7 @@ layout: two-cols
 ### Admin架构图
 <br>
 
-<img class="w-90 h-100" src="/public/admin-iframe.jpg"/>
+<img class="w-90 h-100" src="/admin-iframe.jpg"/>
 
 ::right::
 
@@ -364,6 +364,26 @@ SET_IFRAME_URL: (state, path) => {
 ---
 
 # Why 乾坤
+
+<style>
+.slidev-layout{
+  position: relative;
+  background-image: url(https://images.unsplash.com/photo-1606318005254-bdb2bcd14d34?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80);
+  background-size: 100%;
+}
+.slidev-layout h1{
+  position: fixed;
+  top: 50%;
+  left: 55%;
+  transform: translateX(-50%) translateY(-50%);
+  color: white;
+
+}
+
+</style>
+---
+
+
 
 #### **iframe方案的痛点**
 
@@ -450,13 +470,352 @@ I[通讯方式] --> J[Elegant Api]
 - 🛡 Style Isolation
 - 🧳 JS Sandbox
 - ⚡ Prefetch Assets
+---
+
+# 乾坤 -> Admin : 实践
+
+<style>
+.slidev-layout{
+  position: relative;
+  background-image: url(https://images.unsplash.com/photo-1589786682914-3e3d2c71ce43?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80);
+  background-size: 100%;
+}
+.slidev-layout h1{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: yellow;
+  font-size: 36px;
+
+}
+
+</style>
 
 ---
+
+### 结果：<u>Admin用乾坤改造后：</u> 
+
+<iframe
+  class="w-full h-full" src="https://admintest1.yummy.tech/#/">
+</iframe>
+
+<!--
+click事件，对比两个iframe
+分别是admintest1，localhost
+从加载速度、router、style样式三方面
+<iframe
+  class="w-full h-full" src="https://admintest1.yummy.tech/#/">
+</iframe>
+-->
+
+
+<div class="mermaid">
+
+
+
+</div>
+
+<style>
+.mermaid{
+  position: fixed;
+  top: 60%;
+  left: 5%;
+}
+</style>
+
+
+---
+
 # 乾坤 官方方案的不足
 <br>
+
 - 💪 **多子应用共存** -- 多子应用无法共存，多页签切换时会卸载，无法保持各自状态
 
 - 🛡 **动态注册子应用** -- Qiankun官方子应用是静态注册，Admin是动态获取（不同Platform）
 
 - ⚡ **渐进式改造** -- Admin需要Iframe与Qiankun共存一段时间，
 
+---
+
+# 我们做了哪些？
+
+
+<div class="relative">
+
+  <img class="w-120 h-110" src="/admin-qiankun.jpg"/>
+
+  <div class="absolute top-0 left-60%">
+
+  
+
+  <br>
+
+  <div class="w-4 h-4 bg-[#E5CCFF] inline"></div> App1 
+  <div class="w-4 h-4 bg-[#D5E8D4] inline"></div> App2
+  <div class="w-4 h-4 bg-[#33FF99] inline"></div> App3
+
+  <br>
+  <br>
+  <br>
+
+  - **iframe** 强隔离
+
+  - **qiankun** 弱隔离
+
+  </div>
+
+</div>
+
+<style>
+  .inline{
+    display: inline-block;
+    margin-right: 10px;
+  }
+</style>
+
+---
+
+# 我们的工作
+<br>
+
+- ⚡ <span>**渐进式改造** -- Admin需要Iframe与Qiankun共存一段时间</span>
+
+- 💪 <span class="color-[#C1C1C1]">**多子应用共存** -- 多子应用无法共存，多页签切换时会卸载，无法保持各自状态</span>
+
+- 🛡 <span class="color-[#C1C1C1]">**动态注册子应用** -- Qiankun官方子应用是静态注册，Admin是动态获取（不同Platform）</span>
+
+
+
+---
+layout: two-cols
+---
+
+### 改造前
+
+```html{4-5}
+<tags-view v-if="needTagsView" />
+<div v-if="tabPathList.length > 0"
+     class="app-container">
+  <template v-for="item in iframeUrlList">
+    <iframe v-show="iframeUrl == item"
+            id="app-iframe"
+            :key="item"
+            allowfullscreen
+            :src="item" />
+  </template>
+</div>
+```
+
+
+
+::right::
+
+### 改造后
+
+```html{3,11}
+<tags-view v-if="needTagsView" />
+<div v-if="tabPathList.length > 0" class="app-container">
+  <div v-show="showMicroApp()" style="height: 100%">
+    <div
+      :id="item.id"
+      v-for="item in microAppConfigList"
+      :key="item.id"
+      v-show="showContainer(item.id)">
+    </div>
+  </div>
+  <div v-show="!showMicroApp()" style="height: 100%">
+    <template v-for="item in iframeUrlList">
+      <iframe
+        v-show="iframeUrl == item"
+        id="app-iframe"
+        :key="item"
+        allowfullscreen
+        :src="item"
+      />
+    </template>
+  </div>
+  
+</div>
+```
+
+<style>
+.col-left{
+  margin-right: 10px;
+}
+</style>
+
+---
+
+# 我们的工作
+<br>
+
+- ⚡ <span class="color-[#C1C1C1]">**渐进式改造** -- Admin需要Iframe与Qiankun共存一段时间</span>
+
+- 🛡 <span>**动态注册子应用** -- Qiankun官方子应用是静态注册，Admin是动态获取（不同Platform）</span>
+
+- 💪 <span class="color-[#C1C1C1]">**多子应用共存** -- 多子应用无法共存，多页签切换时会卸载，无法保持各自状态</span>
+
+---
+layout: two-cols
+---
+
+##### <span class="color-red">改造前</span>
+
+```js{7,14,21}
+export const microAppConfig = [
+  {
+    id: 'container-1',
+    name: 'app1',
+    entry:  '/subPages/app1/',
+    container: '#container-1',
+    activeRule: '/app1'
+  },
+  {
+    id: 'container-2',
+    name: 'app2',
+    entry:  '/subPages/app2/',
+    container: '#container-2',
+    activeRule: '/centerProduct'
+  },
+  {
+    id: 'container-3',
+    name: 'app3',
+    entry:  '/subPages/app3/',
+    container: '#container-3',
+    activeRule: '/app3'
+  }
+]
+```
+
+::right::
+
+##### <span class="color-red">改造后</span>
+
+```js {3,4|16,19|20}
+async loadApps(platformId) {
+  const res = await getApps(platformId)
+  this.$store.commit('APPEND_MICRO_APP_CONFIGS',
+  {appList: res.data})
+  if (res.data && res.status === 0) {
+    return res.data
+  }
+},
+
+APPEND_MICRO_APP_CONFIGS: (state, payload) => {
+  
+  const { appList } = payload
+  state.microAppConfigList = appList.reduce((prev, cur) => {
+    if (appCodesByQiankun.includes(cur.code)) {
+      return prev.concat([{
+        id: `container-${cur.id}`,
+        name: cur.code,
+        entry: cur.url,
+        container: `#container-${cur.id}`,
+        activeRule: `/${cur.code}`
+      }])
+    } else {
+      return prev
+    }
+
+  }, microAppConfigList)
+},
+```
+
+<!--
+getRouters接口返回Route的id，来生成不同的挂载点
+Route的appCode作为activeRule，菜单配置path要以activeRule开头
+-->
+
+---
+
+# 我们的工作
+<br>
+
+- ⚡ <span class="color-[#C1C1C1]">**渐进式改造** -- Admin需要Iframe与Qiankun共存一段时间</span>
+
+- 🛡 <span class="color-[#C1C1C1]">**动态注册子应用** -- Qiankun官方子应用是静态注册，Admin是动态获取（不同Platform）</span>
+
+- 💪 <span>**多子应用共存** -- 多子应用无法共存，多页签切换时会卸载，无法保持各自状态</span>
+
+---
+layout: two-cols
+---
+
+- **加载应用** 
+
+<kbd>SET_MICRO_APP</kbd>
+
+- **切换应用** 
+
+<kbd>showMicroApp</kbd> & <kbd>showContainer</kbd>
+
+- **删除应用** 
+
+<kbd>CLOSE_SELECTED_TAG</kbd> & <kbd>CLOSE_OTHERS</kbd> & <kbd>CLOSE_ALL</kbd>
+
+::right::
+
+
+
+```js{8-19|26}
+CLOSE_OTHERS: (state, index) => {
+  if (isMicroApp(path, state.microAppConfigList)) {
+    // 当前tab是micro-app
+    const curMicroApp = findMicroAppByPath(path, state.microAppConfigList)
+    Object.keys(state.mountedMicroApp).forEach(appName => {
+      const app = state.mountedMicroApp[appName]
+      if (app.getStatus() == 'MOUNTED') {
+        if (appName != curMicroApp.name) {
+          app.unmount()
+          delete state.mountedMicroApp[appName]
+        } else {
+          const retainName = normalizeRouteName(state.tabContentList[0].name)
+          app.update({
+            routerEvent: {
+              name: retainName,
+              type: 'closeOthers'
+            }
+          })
+        }
+      }
+    })
+  } else {
+    // 当前tab是iframe
+    // 所有micro-app 都unmounted
+    Object.values(state.mountedMicroApp).forEach(app => {
+      if (app.getStatus() == 'MOUNTED') {
+        app.unmount()
+      }
+    })
+    state.mountedMicroApp = {}
+  }
+
+},
+```
+
+---
+
+# 其他的工作
+
+<br>
+
+| 改造点 | 改造前 | 改造后 |
+| --- | --- | --- |
+| 基座path| <u>#/index?path=%2Fsystem%2Fapp</u> | <u>/#/system/app</u> |
+| token共享 | url拼接 | store内存共享 |
+| 跳转新页面 | <kbd>window.open</kbd> | <kbd>parentRouter.push</kbd> |
+| 容器判断 | <kbd>from=admin&platform=subview</kbd> | <kbd>window.__POWERED_BY_QIANKUN__</kbd> |
+| joymo-lib | 不支持缓存 | <kbd>keep-alive</kbd> |
+| store | 子系统独立维护 | <kbd>unmount时store.reset()</kbd> |
+
+<style>
+  table th {
+    color: green;
+    font-size: 24px;
+  }
+</style>
+
+---
+
+<iframe class="w-full h-full" src="https://i7drsi3tvf.feishu.cn/wiki/wikcnUnnJfTF7NpISTmN30A0OPd#doxcnEiEo2GsSqqiQq6PrG4Wb0c"/>
