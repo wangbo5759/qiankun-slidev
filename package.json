@@ -1,0 +1,19 @@
+{
+  "name": "micro-frontend",
+  "private": true,
+  "scripts": {
+    "build": "slidev build",
+    "dev": "slidev --open",
+    "export": "slidev export",
+    "theme": "slidev theme eject"
+  },
+  "dependencies": {
+    "@slidev/cli": "^0.35.6",
+    "@slidev/theme-default": "*",
+    "@slidev/theme-seriph": "*"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.1.31",
+    "playwright-chromium": "^1.25.2"
+  }
+}
